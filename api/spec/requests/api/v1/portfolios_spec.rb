@@ -57,7 +57,7 @@ RSpec.describe "Api::V1::Portfolios", type: :request do
       response "422", "input inválido" do
         schema type: :object,
                properties: { error: { type: :string } },
-               required: ["error"]
+               required: [ "error" ]
 
         examples "application/json" => {
           portfolio_vacio: {
@@ -90,7 +90,7 @@ RSpec.describe "Api::V1::Portfolios", type: :request do
       response "502", "error en API" do
         schema type: :object,
                properties: { error: { type: :string } },
-               required: ["error"]
+               required: [ "error" ]
 
         let(:payload) { { portfolio: { "BTC" => 1.0 }, fiat_currency: "CLP" } }
 

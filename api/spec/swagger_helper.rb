@@ -18,6 +18,10 @@ RSpec.configure do |config|
         {
           url: "http://localhost:3000",
           description: "Desarrollo local"
+        },
+        {
+          url: "https://buda-api-crypto-portfolio.onrender.com",
+          description: "Producción"
         }
       ]
     }
