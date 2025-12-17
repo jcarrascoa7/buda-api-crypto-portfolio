@@ -128,3 +128,14 @@ o directamente en la carpeta `./api`:
 bundle exec rake rswag:specs:swaggerize
 ```
 
+## Algunas decisiones de diseño
+
+- Decidí utilizar el endpoint `tickers` en lugar de `{market_id}/ticker` para obtener los precios de los mercados ya que, en caso de que el portafolio tenga demasiadas criptomonedas, habría que hacer una petición por cada una de ellas, lo cual podría ser costoso en términos de tiempo y recursos.
+
+- Estuve viendo OpenAPI sólo permite una respuesta por status code, por lo que preferí dejar todas las demás como ejemplos en Swagger pero de todas maneras testearlas con RSpec. Queda bien largo, pero queda bien documentado y testeado.
+
+## Supuestos
+
+- Consideré el “precio en tiempo real” del que se hablaba en el enunciado como el `last_price` para seguir con la decisión anterior de intentar hacer una única llamada. Si hubiera utilizado el endpoint `{market_id}/ticker` hubiera podido utilizar el `min_ask` y el `max_bid` para obtener el precio promedio, pero veo esa solución menos eficiente (y en algunos casos menos precisa).
+
+- Voy a asumir que el símbolo de una criptomoneda podría incluir números.

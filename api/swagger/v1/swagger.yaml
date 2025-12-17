@@ -1,11 +1,105 @@
 ---
 openapi: 3.0.1
 info:
-  title: API V1
+  title: Buda Crypto Portfolio API
   version: v1
-paths: {}
+  description: API para valorizar portafolios cripto
+paths:
+  "/api/v1/portfolios/value":
+    post:
+      summary: Valoriza un portafolio cripto en una moneda fiat
+      tags:
+      - Portfolios
+      parameters: []
+      responses:
+        '200':
+          description: valorización exitosa
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: number
+                  fiat_currency:
+                    type: string
+                  details:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        symbol:
+                          type: string
+                        amount:
+                          type: number
+                        price:
+                          type: number
+                        value:
+                          type: number
+        '422':
+          description: input inválido
+          content:
+            application/json:
+              examples:
+                example_0:
+                  value:
+                    portfolio_vacio:
+                      summary: Portfolio vacío
+                      value:
+                        error: portfolio es requerido
+                    fiat_vacia:
+                      summary: fiat_currency vacío
+                      value:
+                        error: fiat_currency es requerido
+                    fiat_no_disponible:
+                      summary: Fiat no disponible en Buda
+                      value:
+                        error: fiat 'USD' no disponible en Buda
+                    mercado_no_existe:
+                      summary: Mercado directo no disponible
+                      value:
+                        error: mercado 'NOCOIN-CLP' no disponible en Buda
+                    cantidad_invalida:
+                      summary: Cantidad <= 0
+                      value:
+                        error: cantidad de 'BTC' en portfolio debe ser mayor a 0
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+        '502':
+          description: error en API
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                portfolio:
+                  type: object
+                  additionalProperties:
+                    type: number
+                  example:
+                    BTC: 0.5
+                    ETH: 2.0
+                fiat_currency:
+                  type: string
+                  example: CLP
+              required:
+              - portfolio
+              - fiat_currency
 servers:
-- url: https://{defaultHost}
-  variables:
-    defaultHost:
-      default: www.example.com
+- url: http://localhost:3000
+  description: Desarrollo local
